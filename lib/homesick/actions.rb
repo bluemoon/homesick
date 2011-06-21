@@ -56,7 +56,7 @@ class Homesick
 
     def git_push(config = {})
       say_status 'git push', '', :green unless options[:quiet]
-      system "git push --quiet" unless options[:pretend]
+      system "git push" unless options[:pretend]
     end
 
     def git_commit(config = {})
@@ -64,7 +64,8 @@ class Homesick
       time_string = time.strftime("%Y-%m-%d %H:%M:%S")
       message = 'Automated commit by `homesick` at #{time_string}'
       say_status 'git commit', '', :green unless options[:quiet]
-      system "git commit -a -m '#{message}' --quiet" unless options[:pretend]
+
+      system "git commit -a -m '#{message}' " unless options[:pretend]
     end
 
 
