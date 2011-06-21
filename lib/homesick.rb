@@ -64,6 +64,7 @@ class Homesick < Thor
     end
   end
 
+
   desc "pull NAME", "Update the specified castle"
   method_option :all, :type => :boolean, :default => false, :required => false, :desc => "Update all cloned castles"
   def pull(name="")
@@ -76,6 +77,25 @@ class Homesick < Thor
       update_castle name
     end
 
+  end
+
+  desc "push NAME", "Push the specified castle"
+  method_option :all, :type => :boolean, :default => false, :required => false, :desc => "Push all cloned castles"
+  def push(name="")
+    if options[:all]
+      inside_each_castle do |castle|
+        shell.say castle.to_s.gsub(repos_dir.to_s + '/', '') + ':'
+        check_castle_existance(castle, "push")
+        inside repos_dir.join(castle) do
+          git_commit
+          git_push
+        end
+      end
+    else
+      check_castle_existance(name, "push")
+      git_commit
+      git_push
+    end
   end
 
   desc "symlink NAME", "Symlinks all dotfiles from the specified castle"

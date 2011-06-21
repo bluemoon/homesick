@@ -54,6 +54,21 @@ class Homesick
       system "git submodule --quiet update >/dev/null 2>&1" unless options[:pretend]
     end
 
+    def git_push(config = {})
+      say_status 'git push', '', :green unless options[:quiet]
+      system "git push --quiet" unless options[:pretend]
+    end
+
+    def git_commit(config = {})
+      time = Time.new
+      time_string = time.strftime("%Y-%m-%d %H:%M:%S")
+      message = 'Automated commit by `homesick` at #{time_string}'
+      say_status 'git commit', '', :green unless options[:quiet]
+      system "git commit -a -m '#{message}' --quiet" unless options[:pretend]
+    end
+
+
+
     def git_pull(config = {})
       say_status 'git pull', '', :green unless options[:quiet]
       system "git pull --quiet" unless options[:pretend]
